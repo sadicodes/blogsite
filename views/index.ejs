@@ -1,0 +1,29 @@
+<div class="author">
+  <h1 class="author_heading">Hey,I'm Sadi!</h1>
+  <p class="author_body">Web developer and content creator.</p>
+</div>
+<img
+  src="https://media.istockphoto.com/id/1403500817/photo/the-craggies-in-the-blue-ridge-mountains.jpg?s=612x612&w=0&k=20&c=N-pGA8OClRVDzRfj_9AqANnOaDS3devZWwrQNwZuDSk="
+  alt="Author"
+  class="hero_image"
+  width="981"
+  height="528"
+/>
+<section class="articles">
+  <h2 class="articles_heading">Latest Posts</h2>
+  <ul class="article-ul">
+    <% posts.forEach(post => { %>
+
+    <li>
+      <a href="/post/<%= post._id %>">
+        <span><%= post.title %></span>
+        <span class="article_list_date">
+          <%= post.createdAt.toDateString() %>
+        </span>
+      </a>
+    </li>
+    <% }) %>
+  </ul>
+
+  <a href="#" class="pagination">&lt; View Older Posts</a>
+</section>
