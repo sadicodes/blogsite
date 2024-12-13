@@ -4,15 +4,32 @@ const Post = require("../models/post");
 
 /** Get Home */
 router.get("/", async (req, res) => {
-  const locals = {
-    title: "Blog",
-    description: "Simple Blog Website",
-  };
-
-  // Fetch posts from the database and pass them to the view
   try {
-    const posts = await Post.find({});
-    res.render("index", { locals, posts }); // Pass posts to the template
+    const locals = {
+      title: "Blog",
+      description: "Simple Blog Website",
+    };
+    // pagination Route//
+
+    let perpage = 10; // 10 blog post per page//
+    let page = req.query.page || 1; // current page, default page
+
+    const post = await Post.aggregate({ $sort: { CreatedAt: -1 } })
+      .skip((perpage = page - perPage))
+      .limit(perpage)
+      .exact();
+
+    const count = await Post.count();
+    const nextPage = parseInt(page) + 1;
+    const hasNextPage = nextPage <= Math.ceil(count / perpage);
+
+    // Pass posts to the template
+    res.render("index", {
+      locals,
+      post,
+      current: page,
+      nextPage: hasNextPage ? nextPage : null,
+    });
   } catch (error) {
     console.error(`Error fetching posts: ${error.message}`);
     res.status(500).send("Server Error");

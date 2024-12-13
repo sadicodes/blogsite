@@ -10,6 +10,15 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
-}, { timestamps: true }); // Automatically adds createdAt and updatedAt
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 module.exports = mongoose.model("Post", PostSchema);
+// { timestamps: true }); // Automatically adds createdAt and updatedAt
